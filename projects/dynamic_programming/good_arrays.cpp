@@ -6,6 +6,7 @@
 using namespace std;
 #define MOD 1000000007
 #define __FOR_DEBUG__
+#define __FOR_DEBUG_INFO__
 
 #ifdef __FOR_DEBUG__
 #include <chrono>
@@ -59,16 +60,21 @@ void permute(int i, vector<int> s, int a, int b)
     if (i == (s.size() - 1))
     {
         int score = countPairs(s);
-        // cout << "Score: " << score << ". ";
-        // for (auto &it : s)
-        //     cout << it << ' ';
-
+#ifdef __FOR_DEBUG_INFO__
+        cout << "Score: " << score << ". ";
+        for (auto &it : s)
+            cout << it << ' ';
+#endif
         if (score >= a && score <= b)
         {
-            // cout << " (OK)";
+#ifdef __FOR_DEBUG_INFO__
+            cout << " (OK)";
+#endif
             total = (total + 1) % MOD;
         }
-        // cout << '\n';
+#ifdef __FOR_DEBUG_INFO__
+        cout << '\n';
+#endif
         return;
     }
 
@@ -102,7 +108,7 @@ int main()
 
 #ifdef __FOR_DEBUG__
     number_test_case = 1;
-    vector<int> tc{9,10,20};
+    vector<int> tc{4, 1, 1};
     testcases.push_back(tc);
 #else
     register int c;
@@ -121,13 +127,13 @@ int main()
 
     for (auto &it : testcases)
     {
-#ifdef __FOR_DEBUG__
-        auto start = chrono::steady_clock::now();
-#endif
         n = it[0];
         a = it[1];
         b = it[2];
-
+#ifdef __FOR_DEBUG__
+        auto start = chrono::steady_clock::now();
+        printf("n = %d, a = %d, b = %d\n", n, a, b);
+#endif
         vector<int> array(n + 1);
         total = 0;
 
