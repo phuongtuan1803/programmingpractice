@@ -1,10 +1,15 @@
 #include <iostream>
 #include <vector>
-#include <chrono>
+
 #include <algorithm>
 
 using namespace std;
 #define MOD 1000000007
+#define __FOR_DEBUG__
+
+#ifdef __FOR_DEBUG__
+#include <chrono>
+#endif
 
 void scan_integer(int &number)
 {
@@ -95,7 +100,6 @@ int main()
     vector<vector<int>> testcases;
     int number_test_case;
 
-    #define __FOR_DEBUG__
 #ifdef __FOR_DEBUG__
     number_test_case = 1;
     vector<int> tc{9,10,20};
