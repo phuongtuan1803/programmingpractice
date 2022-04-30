@@ -13,7 +13,7 @@ inline long long int addMOD(long long int a, long long int b){
 #define TRACE( format, ... )    printf( "[%s](%d) " format"\n", __FUNCTION__,  __LINE__, __VA_ARGS__ )
 #define _INIT_()
 #define _START_TIMESTAMP_()      auto start = chrono::steady_clock::now();
-#define _STOP_TIMESTAMP_()       TRACE("Elapsed time in milliseconds: %dms\n" , chrono::duration_cast<chrono::microseconds>(chrono::steady_clock::now() - start).count())
+#define _STOP_TIMESTAMP_()       TRACE("Elapsed time in milliseconds: %dms\n" , chrono::duration_cast<chrono::milliseconds>(chrono::steady_clock::now() - start).count())
 #define _TESTCASEFILE_          string(string(__FILE__).substr(0, string(__FILE__).length() - 4 ) + ".txt").c_str()
 ifstream ifile( _TESTCASEFILE_ , ifstream::in);
 #define cinstream ifile
@@ -27,7 +27,17 @@ ifstream ifile( _TESTCASEFILE_ , ifstream::in);
 /*  ================================================================================================================================== */
 
 /* GLOBAL VAR */
-char c[150];
+int dp[2001];
+int count[2001];
+int findTargetSumWays(vector<int>& nums, int target) {
+    memset(dp,0,2001*sizeof(int));
+
+    for(auto v : nums){
+        dp[v] = dp[v- ] + 1;
+        count[v]++;
+    }
+    return dp[target];
+}
 
 int main()
 {
@@ -44,24 +54,18 @@ int main()
     
     for (int i = 0; i < T; i++)
     {   
-        /* 
-        FOR NUMBER 
-            cinstream >> n >> x;
+        int target, num_max, tmp;
+        cinstream >> target;
 
-        FOR NUMBER ARRAY
-            for(int j = 0; j < n ; ++j){
-                cinstream >> tmp;
-                s[j] = tmp;
-            }
+        vector<int> nums;
+        cinstream >> num_max;
 
-        FOR STRING
-            string s;
-            cinstream >> s;
-            strcpy(c, s.c_str());
-        */
-
-        TRACE("DEBUG:: output: %d", T);
-        cout << T << '\n';
+        for(int j = 0; j < num_max ; ++j){
+            cinstream >> tmp;
+            nums.push_back(tmp);
+        }        
+        TRACE("DEBUG:: num_max: %d", num_max);
+        TRACE("DEBUG:: output: %d", findTargetSumWays(nums,target));
 
     }
 

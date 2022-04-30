@@ -13,7 +13,7 @@ inline long long int addMOD(long long int a, long long int b){
 #define TRACE( format, ... )    printf( "[%s](%d) " format"\n", __FUNCTION__,  __LINE__, __VA_ARGS__ )
 #define _INIT_()
 #define _START_TIMESTAMP_()      auto start = chrono::steady_clock::now();
-#define _STOP_TIMESTAMP_()       TRACE("Elapsed time in milliseconds: %dms\n" , chrono::duration_cast<chrono::microseconds>(chrono::steady_clock::now() - start).count())
+#define _STOP_TIMESTAMP_()       TRACE("Elapsed time in milliseconds: %dms\n" , chrono::duration_cast<chrono::milliseconds>(chrono::steady_clock::now() - start).count())
 #define _TESTCASEFILE_          string(string(__FILE__).substr(0, string(__FILE__).length() - 4 ) + ".txt").c_str()
 ifstream ifile( _TESTCASEFILE_ , ifstream::in);
 #define cinstream ifile
@@ -27,8 +27,42 @@ ifstream ifile( _TESTCASEFILE_ , ifstream::in);
 /*  ================================================================================================================================== */
 
 /* GLOBAL VAR */
-char c[150];
+bool canPartition(vector<int>& nums) {
 
+    int sum = 0;
+    for(auto e : nums){
+        sum+=e;
+    }
+    
+    if(sum%2 == 1 || sum/2 < nums[0]){
+        return false;
+    }
+    TRACE("DEBUG::  sum: %d",sum);      
+    int dp[nums.size()+1][sum/2+1]; 
+    memset(dp,0,sizeof(dp));
+    for (int i = 1; i <= nums.size(); i++)
+    {
+        dp[i][0] = 1;
+    }
+    dp[0][0] = 1;
+    for(int i = 1 ; i <= nums.size() ; i++){
+        for(int j = 1 ; j <= sum/2 ; j++){
+            if(j - nums[i-1] >= 0){
+                dp[i][j] = addMOD(dp[i][j],dp[i-1][j-nums[i-1]]);
+                TRACE("DEBUG::  dp[%d][%d]: %d",i ,j,  dp[i][j]);      
+            }    
+              
+        }
+    }
+
+    for (int i = 1; i <= nums.size(); i++)
+    {
+       if(dp[i][sum/2] == 1){
+           return true;
+       }
+    }    
+    return false;
+}
 int main()
 {
     _INIT_();
@@ -44,24 +78,16 @@ int main()
     
     for (int i = 0; i < T; i++)
     {   
-        /* 
-        FOR NUMBER 
-            cinstream >> n >> x;
+        int num_max, tmp;
+        vector<int> nums;
+        cinstream >> num_max;
 
-        FOR NUMBER ARRAY
-            for(int j = 0; j < n ; ++j){
-                cinstream >> tmp;
-                s[j] = tmp;
-            }
-
-        FOR STRING
-            string s;
-            cinstream >> s;
-            strcpy(c, s.c_str());
-        */
-
-        TRACE("DEBUG:: output: %d", T);
-        cout << T << '\n';
+        for(int j = 0; j < num_max ; ++j){
+            cinstream >> tmp;
+            nums.push_back(tmp);
+        }        
+        TRACE("DEBUG:: num_max: %d", num_max);
+        TRACE("DEBUG:: output: %d", canPartition(nums));
 
     }
 

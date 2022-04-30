@@ -13,7 +13,7 @@ inline long long int addMOD(long long int a, long long int b){
 #define TRACE( format, ... )    printf( "[%s](%d) " format"\n", __FUNCTION__,  __LINE__, __VA_ARGS__ )
 #define _INIT_()
 #define _START_TIMESTAMP_()      auto start = chrono::steady_clock::now();
-#define _STOP_TIMESTAMP_()       TRACE("Elapsed time in milliseconds: %dms\n" , chrono::duration_cast<chrono::microseconds>(chrono::steady_clock::now() - start).count())
+#define _STOP_TIMESTAMP_()       TRACE("Elapsed time in milliseconds: %dms\n" , chrono::duration_cast<chrono::milliseconds>(chrono::steady_clock::now() - start).count())
 #define _TESTCASEFILE_          string(string(__FILE__).substr(0, string(__FILE__).length() - 4 ) + ".txt").c_str()
 ifstream ifile( _TESTCASEFILE_ , ifstream::in);
 #define cinstream ifile
@@ -27,7 +27,37 @@ ifstream ifile( _TESTCASEFILE_ , ifstream::in);
 /*  ================================================================================================================================== */
 
 /* GLOBAL VAR */
-char c[150];
+
+int dp[501][501];
+
+int numWays(int steps, int arrLen) {
+
+    int max_distance = min(steps/2+1, arrLen);
+    dp[0][0] = 0;
+    dp[1][0] = 1;
+    
+    for(int i = 1 ; i < max_distance; i++){
+        dp[i][i] = 1;
+    }
+    for(int i = 2 ; i <= steps; i++){
+        for(int j = 0; j < max_distance; j++){
+            if(i < j){
+                // bypass max distance lager steps
+            } else if(dp[i][j] == 0){
+                dp[i][j] = addMOD(dp[i][j],dp[i-1][j]);
+
+                if(j-1>=0)
+                    dp[i][j] = addMOD(dp[i][j],dp[i-1][j-1]);
+                dp[i][j] = addMOD(dp[i][j],dp[i-1][j+1]);
+            } 
+            TRACE(" dp[%d][%d] = %d", i, j, dp[i][j]);
+            if(i == steps){
+                break;
+            }
+        }
+    }
+    return dp[steps][0];
+}
 
 int main()
 {
@@ -44,24 +74,12 @@ int main()
     
     for (int i = 0; i < T; i++)
     {   
-        /* 
-        FOR NUMBER 
-            cinstream >> n >> x;
+        int steps, arrLen;
+        cinstream >> steps >> arrLen;
 
-        FOR NUMBER ARRAY
-            for(int j = 0; j < n ; ++j){
-                cinstream >> tmp;
-                s[j] = tmp;
-            }
+        int output = numWays(steps, arrLen);
+        TRACE("DEBUG:: output: %d", output);
 
-        FOR STRING
-            string s;
-            cinstream >> s;
-            strcpy(c, s.c_str());
-        */
-
-        TRACE("DEBUG:: output: %d", T);
-        cout << T << '\n';
 
     }
 

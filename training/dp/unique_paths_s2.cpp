@@ -1,19 +1,18 @@
+//https://leetcode.com/problems/unique-paths/
+
 #include <bits/stdc++.h>
 
 //#undef _DEBUG
 
 using namespace std;
 
-#define MOD  1000000007
-inline long long int addMOD(long long int a, long long int b){
-   return (a % MOD + b % MOD) % MOD;
-}
+#define MODULO  2000000000
 /*  ====== PRE DEFINE ================================================================================================================ */
 #ifdef _DEBUG
 #define TRACE( format, ... )    printf( "[%s](%d) " format"\n", __FUNCTION__,  __LINE__, __VA_ARGS__ )
 #define _INIT_()
 #define _START_TIMESTAMP_()      auto start = chrono::steady_clock::now();
-#define _STOP_TIMESTAMP_()       TRACE("Elapsed time in milliseconds: %dms\n" , chrono::duration_cast<chrono::microseconds>(chrono::steady_clock::now() - start).count())
+#define _STOP_TIMESTAMP_()       TRACE("Elapsed time in milliseconds: %dms\n" , chrono::duration_cast<chrono::milliseconds>(chrono::steady_clock::now() - start).count())
 #define _TESTCASEFILE_          string(string(__FILE__).substr(0, string(__FILE__).length() - 4 ) + ".txt").c_str()
 ifstream ifile( _TESTCASEFILE_ , ifstream::in);
 #define cinstream ifile
@@ -27,7 +26,29 @@ ifstream ifile( _TESTCASEFILE_ , ifstream::in);
 /*  ================================================================================================================================== */
 
 /* GLOBAL VAR */
-char c[150];
+int path[101][101];
+
+int uniquePaths(int m, int n) {
+
+    for (int i = 1; i <= m; i++)
+    {
+        path[i][1] = 1;
+    }
+    
+    for (int j = 1; j <= n; j++)
+    {
+        path[1][j] = 1;
+    }
+    
+    for (int i = 2; i <= m; i++)
+    {        
+        for (int j = 2; j <= n; j++)
+        {   
+            path[i][j] = path[i][j-1]%MODULO+path[i-1][j]%MODULO ;
+        }        
+    }
+    return path[m][n];    
+}
 
 int main()
 {
@@ -44,24 +65,12 @@ int main()
     
     for (int i = 0; i < T; i++)
     {   
-        /* 
-        FOR NUMBER 
-            cinstream >> n >> x;
-
-        FOR NUMBER ARRAY
-            for(int j = 0; j < n ; ++j){
-                cinstream >> tmp;
-                s[j] = tmp;
-            }
-
-        FOR STRING
-            string s;
-            cinstream >> s;
-            strcpy(c, s.c_str());
-        */
-
-        TRACE("DEBUG:: output: %d", T);
-        cout << T << '\n';
+        int m, n;
+        cinstream >> m >> n;
+        TRACE("DEBUG:: Input: m = %d.  n = %d", m , n); 
+        int output = uniquePaths(m,n);
+        TRACE("DEBUG:: output: %d", output);
+        cout << output << '\n';
 
     }
 

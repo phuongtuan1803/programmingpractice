@@ -35,26 +35,6 @@ vector<int> subset;
 int alice_first_choice = 0;
 int alice_second_choice = 0;
 
-void search(int k, int n,bool chosen[], vector<int> &bob_v, vector<int> &alice_v)
-{
- for (int v = 0 ; v < alice_v.size() ;v++)
-        {
-            x[k] = v;
-            if (việc thử còn hy vọng để tìm ra cấu hình tốt hơn BEST_CONFIG)
-            {
-                if (k == n)
-                { // Nếu i là phần tử cuối cùng trong cấu hình
-                    cập nhật BEST_CONFIG;
-                }
-                else
-                {
-                    chosen[v] = true; // Ghi nhận việc x[i] nhận giá trị V nếu cần
-                    search(k + 1,n,chosen,bob_v,alice_v);
-                    chosen[v] = false; // Bỏ ghi nhận việc thử cho x[i] nếu cần
-                }
-            }
-        }
-}
 void search(int k, int n, vector<int> &bob_v, vector<int> &alice_v)
 {
         if (k == n)
