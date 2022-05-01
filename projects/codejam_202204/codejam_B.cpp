@@ -126,7 +126,7 @@ int main()
 #endif
 
     _START_TIMESTAMP_();
-    tinhtruocgiaithua(50000);
+    tinhtruocgiaithua(50001);
     for (int tc = 0; tc < T; tc++)
     {
 // #ifdef _DEBUG
