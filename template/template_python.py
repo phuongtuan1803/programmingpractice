@@ -67,3 +67,12 @@ stdout = open('output.txt', 'w')
 # arr[:stop]              # items from the beginning through stop-1
 # arr[:]                  # a copy of the whole array
 # arr[start:stop:step]    # start through not past stop, by step
+import math
+print(math.trunc(a))
+print(math.ceil(a))
+print(math.floor(a))
+print(round(a, 2))
+
+print('%.2f' % a)
+print("{0:.3f}".format(a))
+print(f"{a:0,.2f}")
